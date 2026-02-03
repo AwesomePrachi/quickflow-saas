@@ -185,12 +185,11 @@ const Tasks = () => {
 
     const handleStatusChange = async (taskId, newStatus) => {
         try {
-            // Optimistic Update
             setTasks(tasks.map(t => t.id === taskId ? { ...t, status: newStatus } : t));
             await api.put(`/tasks/${taskId}`, { status: newStatus });
         } catch (error) {
             console.error("Failed to update status");
-            fetchTasks(); // Revert on error
+            fetchTasks();
         }
     };
 

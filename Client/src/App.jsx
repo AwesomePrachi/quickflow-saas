@@ -27,7 +27,6 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/users" element={<Users />} />
-          {/* Add more routes here */}
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />
