@@ -42,8 +42,6 @@ Quickflow solves these problems by combining structured workflow management with
 - Role-aware task visibility
 - Real-time UI updates
 
----
-
 ### 2. Professional Dashboard & Analytics
 
 - Real-time productivity trend (last 7 days)
@@ -52,8 +50,6 @@ Quickflow solves these problems by combining structured workflow management with
 - Bottleneck detection (overdue tasks)
 - Organization-level performance overview
 - CSV export of all tasks
-
----
 
 ### 3. Role-Based Access Control (RBAC)
 
@@ -72,8 +68,6 @@ Quickflow solves these problems by combining structured workflow management with
 - Access personal productivity insights
 
 > Permissions are enforced on both frontend and backend.
-
----
 
 ### 4. User & Team Management
 
@@ -111,22 +105,6 @@ Quickflow solves these problems by combining structured workflow management with
 - All core entities scoped by `organization_id`
 - JWT tokens include `user_id`, `organization_id`, and `role`
 - No cross-organization data access permitted
-
----
-
-## 🗄️ Database Overview
-
-Core entities:
-- Organizations
-- Users
-- Tasks
-- ActivityLogs
-- Reports
-
-Design principles:
-- Strict organization scoping
-- Clear relational mappings
-- Analytics-friendly structure
 
 ---
 
