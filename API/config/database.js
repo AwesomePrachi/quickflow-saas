@@ -1,7 +1,6 @@
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 
-// Load env vars
 dotenv.config();
 
 const sequelize = new Sequelize(
@@ -10,8 +9,14 @@ const sequelize = new Sequelize(
     process.env.DB_PASSWORD,
     {
         host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
         dialect: 'mysql',
-        logging: false, // Set to console.log to see SQL queries
+        logging: false,
+        dialectOptions: {
+            ssl: {
+                require: true
+            }
+        },
         pool: {
             max: 5,
             min: 0,
@@ -27,7 +32,6 @@ const connectDB = async () => {
         console.log('MySQL Database connected successfully.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
-        process.exit(1); // Exit process with failure
     }
 };
 
