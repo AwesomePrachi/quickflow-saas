@@ -1,4 +1,4 @@
-# ⚡ Quickflow — Smart Workflow SaaS
+#⚡ Quickflow — Smart Workflow SaaS
 
 Quickflow is a modern, multi-tenant SaaS platform for task management, team collaboration, and productivity analytics.  
 It is designed with enterprise-grade role-based access control (RBAC), real-time insights, and a clean, professional user experience.
@@ -80,24 +80,11 @@ Quickflow solves these problems by combining structured workflow management with
 
 ## 🛠️ Tech Stack
 
-### Frontend
-- React.js  
-- Tailwind CSS + custom Vanilla CSS  
-- Framer Motion  
-- Lucide React  
-- Chart.js  
-
-### Backend
-- Node.js  
-- Express.js  
-- Sequelize ORM  
-
-### Database
-- MySQL  
-
-### Security
-- JWT-based authentication  
-- Bcrypt password hashing  
+- **Frontend:** React.js, Tailwind CSS + custom Vanilla CSS, Framer Motion, Lucide React,Chart.js
+- **Backend:** Node.js, Express.js, Sequelize ORM
+- **Database:** MySQL
+- **Security:** JWT-based authentication, Bcrypt password hashing
+- **Other:** dotenv for environment variables, CORS
 
 ---
 
@@ -173,6 +160,8 @@ The project is fully production-ready using a zero-cost stack.
 ## License
 
 [MIT](./LICENSE)
+
+---
 
 ## Author
 
