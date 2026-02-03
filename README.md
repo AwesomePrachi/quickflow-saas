@@ -1,4 +1,4 @@
-# ⚡Haveit – Smart Workflow SaaS
+# ⚡Quickflow – Smart Workflow SaaS
 
 Quickflow is a modern, multi-tenant SaaS platform for task management, team collaboration, and productivity analytics.  
 It is designed with enterprise-grade role-based access control (RBAC), real-time insights, and a clean, professional user experience.
