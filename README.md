@@ -1,7 +1,6 @@
 # ⚡Quickflow – Smart Workflow SaaS
 
-Quickflow is a modern, multi-tenant SaaS platform for task management, team collaboration, and productivity analytics. It is designed with enterprise-grade role-based access control (RBAC), real-time insights, and a clean, professional user experience. 
-This project demonstrates real-world SaaS architecture, secure backend engineering, and analytics-driven decision making.
+Quickflow is a modern, multi-tenant SaaS platform for task management, team collaboration, and productivity analytics. It is designed with enterprise-grade role-based access control (RBAC), real-time insights, and a clean, professional user experience. This project demonstrates real-world SaaS architecture, secure backend engineering, and analytics-driven decision making.
 
 ---
 
