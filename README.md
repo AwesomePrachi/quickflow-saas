@@ -127,8 +127,8 @@ Insights include:
 ## 🚀 Deployment
 
 - Frontend: Vercel  
-- Backend: Render  
-- Database: Free MySQL hosting  
+- Backend: Render
+- Database hosted on Aiven MySQL (SSL-enabled)
 
 The project is fully production-ready using a zero-cost stack.
 
