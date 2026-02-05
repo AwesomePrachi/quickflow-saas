@@ -21,6 +21,13 @@ export const createUser = async (req, res) => {
     try {
         const { name, email, password, role } = req.body;
 
+        // Password validation
+        if (!password || password.length < 8) {
+            return res.status(400).json({
+                message: 'Password must be at least 8 characters long'
+            });
+        }
+
         // Check if user exists
         const userExists = await User.findOne({ where: { email } });
         if (userExists) {

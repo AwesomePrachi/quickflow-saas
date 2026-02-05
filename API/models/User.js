@@ -8,11 +8,11 @@ const User = sequelize.define('User', {
         autoIncrement: true
     },
     name: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(100),
         allowNull: false
     },
     email: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(150),
         allowNull: false,
         unique: true,
         validate: {
@@ -20,8 +20,12 @@ const User = sequelize.define('User', {
         }
     },
     password: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+            len: [60, 255]      // bcrypt hash length
+        }
     },
     role: {
         type: DataTypes.ENUM('Admin', 'Leader', 'Member'),

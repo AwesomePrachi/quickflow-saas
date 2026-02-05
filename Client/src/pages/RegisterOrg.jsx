@@ -23,6 +23,10 @@ const RegisterOrg = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        if (formData.password.length < 8) {
+            setError('Password must be at least 8 characters long');
+            return;
+        }
         setIsLoading(true);
         try {
             await registerOrg(formData);
@@ -106,6 +110,7 @@ const RegisterOrg = () => {
                                 type="password"
                                 name="password"
                                 required
+                                minLength={8}
                                 value={formData.password}
                                 onChange={handleChange}
                                 className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
