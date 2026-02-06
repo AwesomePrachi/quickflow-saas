@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Loader2, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { notifySuccess, notifyError } from '../utility/notify';
 import logo from '../assets/logo.png';
 
 const RegisterOrg = () => {
@@ -24,15 +25,18 @@ const RegisterOrg = () => {
         e.preventDefault();
         setError('');
         if (formData.password.length < 8) {
-            setError('Password must be at least 8 characters long');
+            setError("Password must be at least 8 characters");
             return;
         }
         setIsLoading(true);
         try {
             await registerOrg(formData);
+            notifySuccess("Workspace created successfully!");
             navigate('/');
         } catch (err) {
-            setError(err.response?.data?.message || 'Failed to register');
+            const message = err.response?.data?.message || 'Failed to register';
+            setError(message);
+            notifyError(message);
         } finally {
             setIsLoading(false);
         }

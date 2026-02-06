@@ -7,26 +7,38 @@ const Task = sequelize.define('Task', {
         primaryKey: true,
         autoIncrement: true
     },
+
     title: {
         type: DataTypes.STRING,
         allowNull: false
     },
+
     description: {
         type: DataTypes.TEXT,
         allowNull: true
     },
+
     status: {
         type: DataTypes.ENUM('Open', 'In Progress', 'Completed'),
         defaultValue: 'Open'
     },
+
     priority: {
         type: DataTypes.ENUM('Low', 'Medium', 'High'),
         defaultValue: 'Medium'
     },
+
     dueDate: {
         type: DataTypes.DATEONLY,
         allowNull: true
     },
+
+    // analytics critical
+    completedAt: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
+
     assignedUserId: {
         type: DataTypes.INTEGER,
         allowNull: true,
@@ -35,6 +47,7 @@ const Task = sequelize.define('Task', {
             key: 'id'
         }
     },
+
     organizationId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -43,8 +56,15 @@ const Task = sequelize.define('Task', {
             key: 'id'
         }
     }
+
 }, {
-    timestamps: true
+    timestamps: true,
+    indexes: [
+        { fields: ['organizationId'] },
+        { fields: ['assignedUserId'] },
+        { fields: ['status'] },
+        { fields: ['completedAt'] }
+    ]
 });
 
 export default Task;

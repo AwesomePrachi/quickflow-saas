@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Loader2, ArrowRight } from 'lucide-react';
+import { notifySuccess, notifyError } from '../utility/notify';
 import logo from '../assets/logo.png';
 
 const Login = () => {
@@ -18,9 +19,11 @@ const Login = () => {
         setIsLoading(true);
         try {
             await login(email, password);
+            notifySuccess("Logged in successfully");
             navigate('/');
         } catch (err) {
-            setError(err.response?.data?.message || 'Failed to login');
+            const message = err.response?.data?.message || "Failed to login";
+            setError(message);
         } finally {
             setIsLoading(false);
         }
@@ -58,7 +61,7 @@ const Login = () => {
                         <div className="space-y-1.5">
                             <label className="text-sm font-medium text-zinc-300">Password</label>
                             <input
-                                type="password"
+
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}

@@ -10,6 +10,10 @@ import { useAuth } from './context/AuthContext';
 import WelcomeModal from './components/WelcomeModal';
 import ScrollToTop from './components/ScrollToTop';
 
+// ✅ Toast imports
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   const { user } = useAuth();
 
@@ -17,6 +21,7 @@ function App() {
     <>
       <ScrollToTop />
       <WelcomeModal />
+
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
@@ -31,6 +36,22 @@ function App() {
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+
+      {/* ✅ Global Toast Container */}
+      <ToastContainer
+        position="top-center"
+        autoClose={2500}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable={false}
+        hideProgressBar={false}
+        theme="dark"
+        toastClassName="premium-toast"
+        bodyClassName="premium-toast-body"
+        progressClassName="premium-toast-progress"
+      />
+
     </>
   );
 }

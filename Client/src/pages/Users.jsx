@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from 'react';
 import api from '../api/api';
+import { notifySuccess, notifyError } from '../utility/notify';
 import { Plus, Search, User as UserIcon, Shield, Mail, MoreHorizontal, Edit2, Trash2, UserCog, AlertTriangle, ArrowRightLeft, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const Users = () => {
-    const { user: currentUser } = useAuth();
+    const { user: currentUser, refreshUser } = useAuth();
     const [users, setUsers] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -41,7 +42,7 @@ const Users = () => {
             const res = await api.get('/users');
             setUsers(res.data);
         } catch (error) {
-            console.error("Failed to fetch users");
+            notifyError("Unable to load team members");
         } finally {
             setIsLoading(false);
         }
@@ -66,11 +67,12 @@ const Users = () => {
         e.preventDefault();
         try {
             await api.post('/users', formData);
+            notifySuccess("Invitation sent");
             setShowModal(false);
             setFormData({ name: '', email: '', password: '', role: 'Member' });
             fetchUsers();
         } catch (error) {
-            alert(error.response?.data?.message || 'Failed to create user');
+            notifyError(error.response?.data?.message || 'Failed to create user');
         }
     };
 
@@ -78,22 +80,24 @@ const Users = () => {
         e.preventDefault();
         try {
             await api.put(`/users/${selectedUser.id}`, editData);
+            notifySuccess("Member updated");
             setShowEditModal(false);
             setSelectedUser(null);
             fetchUsers();
         } catch (error) {
-            alert(error.response?.data?.message || 'Failed to update user');
+            notifyError(error.response?.data?.message || 'Failed to update member');
         }
     };
 
     const handleDeleteUser = async () => {
         try {
             await api.delete(`/users/${selectedUser.id}`);
+            notifySuccess("Member removed");
             setShowDeleteModal(false);
             setSelectedUser(null);
             fetchUsers();
         } catch (error) {
-            alert(error.response?.data?.message || 'Failed to delete user');
+            notifyError(error.response?.data?.message || 'Failed to delete member');
         }
     };
 
@@ -101,12 +105,13 @@ const Users = () => {
         e.preventDefault();
         try {
             await api.post('/users/transfer-ownership', transferData);
+            await refreshUser();
+            fetchUsers();
+            notifySuccess("Ownership transferred");
             setShowTransferModal(false);
             setTransferData({ targetUserId: '', demoteCurrent: false });
-            alert('Ownership transferred successfully!');
-            fetchUsers();
         } catch (error) {
-            alert(error.response?.data?.message || 'Failed to transfer ownership');
+            notifyError(error.response?.data?.message || 'Failed to transfer ownership');
         }
     };
 

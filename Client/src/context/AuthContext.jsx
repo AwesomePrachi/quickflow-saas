@@ -27,17 +27,26 @@ export const AuthProvider = ({ children }) => {
         loadUser();
     }, []);
 
+    const refreshUser = async () => {
+        try {
+            const res = await api.get('/auth/me');
+            setUser(res.data);
+        } catch (error) {
+            console.error('User refresh failed', error);
+        }
+    };
+
     const login = async (email, password) => {
         const res = await api.post('/auth/login', { email, password });
         localStorage.setItem('token', res.data.token);
-        setUser(res.data.user);
+        await refreshUser();
         return res.data;
     };
 
     const registerOrg = async (data) => {
         const res = await api.post('/auth/register-org', data);
         localStorage.setItem('token', res.data.token);
-        setUser(res.data.user);
+        await refreshUser();
         return res.data;
     };
 
@@ -47,7 +56,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, registerOrg, logout, loading }}>
+        <AuthContext.Provider value={{ user, refreshUser, login, registerOrg, logout, loading }}>
             {!loading && children}
         </AuthContext.Provider>
     );

@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import api from '../api/api';
 import { useAuth } from '../context/AuthContext';
+import { notifySuccess, notifyError, notifyInfo } from '../utility/notify';
 import { Plus, MoreHorizontal, Calendar, ArrowRight, Edit2, Trash2, X, AlertCircle } from 'lucide-react';
 import { cn } from '../utils';
 
@@ -128,7 +129,7 @@ const Tasks = () => {
             const res = await api.get('/tasks');
             setTasks(res.data);
         } catch (error) {
-            console.error(error);
+            notifyError("Unable to load tasks");
         } finally {
             setLoading(false);
         }
@@ -139,7 +140,7 @@ const Tasks = () => {
             const res = await api.get('/users');
             setUsers(res.data);
         } catch (error) {
-            console.error(error);
+            notifyError("Unable to load users");
         }
     };
 
@@ -152,11 +153,12 @@ const Tasks = () => {
         e.preventDefault();
         try {
             await api.post('/tasks', formData);
+            notifySuccess("Task created successfully");
             setShowModal(false);
             resetForm();
             fetchTasks();
         } catch (error) {
-            alert(error.response?.data?.message || 'Failed to create task');
+            notifyError(error.response?.data?.message || 'Failed to create task');
         }
     };
 
@@ -164,22 +166,24 @@ const Tasks = () => {
         e.preventDefault();
         try {
             await api.put(`/tasks/${selectedTask.id}`, formData);
+            notifySuccess("Task updated");
             setShowEditModal(false);
             resetForm();
             fetchTasks();
         } catch (error) {
-            alert(error.response?.data?.message || 'Failed to update task');
+            notifyError(error.response?.data?.message || 'Failed to update task');
         }
     };
 
     const handleDeleteTask = async () => {
         try {
             await api.delete(`/tasks/${selectedTask.id}`);
+            notifySuccess("Task deleted");
             setShowDeleteModal(false);
             setSelectedTask(null);
             fetchTasks();
         } catch (error) {
-            alert(error.response?.data?.message || 'Failed to delete task');
+            notifyError(error.response?.data?.message || 'Failed to delete task');
         }
     };
 
@@ -187,8 +191,9 @@ const Tasks = () => {
         try {
             setTasks(tasks.map(t => t.id === taskId ? { ...t, status: newStatus } : t));
             await api.put(`/tasks/${taskId}`, { status: newStatus });
+            notifyInfo(`Task moved to ${newStatus}`);
         } catch (error) {
-            console.error("Failed to update status");
+            notifyError(error.response?.data?.message || 'Failed to update status');
             fetchTasks();
         }
     };

@@ -20,3 +20,50 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+
+/* ===== Screenshot Style Toast ===== */
+
+.premium-toast {
+  background: #111111 !important;
+  border-radius: 10px !important;
+  padding: 8px 12px !important;
+  min-height: 50px !important;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+}
+
+/* Body alignment */
+.premium-toast-body {
+  padding: 0;
+  margin: 0;
+}
+
+/* Bottom progress bar */
+.premium-toast-progress {
+  height: 4px !important;
+  border-radius: 0 0 10px 10px;
+}
+
+/* Success progress color */
+.Toastify__toast--success .premium-toast-progress {
+  background: #22c55e;
+}
+
+/* Error progress color */
+.Toastify__toast--error .premium-toast-progress {
+  background: #ef4444;
+}
+
+/* Close button subtle */
+.Toastify__close-button {
+  opacity: 0.6;
+}
+
+/* Icon spacing */
+.Toastify__toast-icon {
+  margin-right: 10px;
+}

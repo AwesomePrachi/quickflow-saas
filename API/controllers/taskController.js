@@ -31,6 +31,10 @@ export const createTask = async (req, res) => {
     try {
         const { title, description, status, priority, dueDate, assignedUserId } = req.body;
 
+        const completedAt = status === 'Completed'
+            ? new Date()
+            : null;
+
         const task = await Task.create({
             title,
             description,
@@ -38,7 +42,8 @@ export const createTask = async (req, res) => {
             priority,
             dueDate,
             assignedUserId,
-            organizationId: req.user.organizationId
+            organizationId: req.user.organizationId,
+            completedAt
         });
 
         res.status(201).json(task);
@@ -58,47 +63,51 @@ export const updateTask = async (req, res) => {
             }
         });
 
-        if (!task) {
+        if (!task)
             return res.status(404).json({ message: 'Task not found' });
-        }
 
-        // member can only update status of their assigned tasks
+        // member restrictions
         if (req.user.role === 'Member') {
-            // Check if task is assigned to them
-            if (task.assignedUserId !== req.user.id) {
-                return res.status(403).json({
-                    message: 'Members can only update their assigned tasks'
-                });
-            }
 
-            // Check if trying to update fields other than status
+            if (task.assignedUserId !== req.user.id)
+                return res.status(403).json({
+                    message: 'Members can only update assigned tasks'
+                });
+
             const allowedFields = ['status'];
-            const requestedFields = Object.keys(req.body);
-            const hasDisallowedFields = requestedFields.some(field => !allowedFields.includes(field));
+            const hasInvalid = Object.keys(req.body)
+                .some(f => !allowedFields.includes(f));
 
-            if (hasDisallowedFields) {
+            if (hasInvalid)
                 return res.status(403).json({
-                    message: 'Members can only update task status, not other details'
+                    message: 'Members may only update status'
                 });
-            }
         }
-
-        // LEADER: Can update any team task (all fields allowed)
-        // ADMIN: Can update any task (all fields allowed)
 
         const { title, description, status, priority, dueDate, assignedUserId } = req.body;
 
-        // Only update fields that are provided
         if (title !== undefined) task.title = title;
         if (description !== undefined) task.description = description;
-        if (status !== undefined) task.status = status;
         if (priority !== undefined) task.priority = priority;
         if (dueDate !== undefined) task.dueDate = dueDate;
         if (assignedUserId !== undefined) task.assignedUserId = assignedUserId;
 
+        // Lifecycle tracking
+        if (status !== undefined) {
+
+            if (status === 'Completed' && task.status !== 'Completed')
+                task.completedAt = new Date();
+
+            if (status !== 'Completed' && task.status === 'Completed')
+                task.completedAt = null;
+
+            task.status = status;
+        }
+
         await task.save();
 
         res.json(task);
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
