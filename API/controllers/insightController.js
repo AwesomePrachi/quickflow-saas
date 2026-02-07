@@ -91,7 +91,9 @@ export const getRisks = async (req, res) => {
                     user: u.name,
                     details: `Workload score ${workloadScore.toFixed(1)}`
                 });
-
+            
+            // bottleneck detection
+            // the user's name and count of overdue tasks for reporting/analytics
             if (late.length >= 3)
                 risks.push({
                     type: 'Bottleneck',
